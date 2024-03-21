@@ -8,12 +8,14 @@ const InitialState = {
 class Form extends Component {
   state = { ...InitialState };
 
+  //  приймає дані з інпуту
   handleChange = ({ target }) => {
     this.setState({
       [target.name]: target.value,
     });
   };
 
+  //слухач події на формі Створює новий контакт
   handleSubmit = e => {
     e.preventDefault();
 
