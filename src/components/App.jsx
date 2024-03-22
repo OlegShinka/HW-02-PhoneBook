@@ -6,13 +6,34 @@ import { Filter } from './filter/Filter';
 class App extends Component {
   state = {
     contacts: [
-      { id: 'id-1', name: 'Rosie', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie', number: '227-91-26' },
+      // { id: 'id-1', name: 'Rosie', number: '459-12-56' },
+      // { id: 'id-2', name: 'Hermione', number: '443-89-12' },
+      // { id: 'id-3', name: 'Eden', number: '645-17-79' },
+      // { id: 'id-4', name: 'Annie', number: '227-91-26' },
     ],
     filter: '',
   };
+
+  componentDidMount() {
+    console.log('contactsLS', localStorage.getItem('contacts'));
+    const parse = JSON.parse(localStorage.getItem('contacts'));
+    console.log('parse :>> ', parse);
+    this.setState(prev => ({
+      contacts: prev.contacts,
+    }));
+    if (parse) {
+      this.setState({
+        contacts: parse,
+      });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   addContact = newContact => {
     const checkContact = this.state.contacts.find(item => {
       return item.name.toLowerCase() === newContact.name.toLowerCase();
@@ -66,5 +87,23 @@ class App extends Component {
     );
   }
 }
+
+//  componentDidMount() {
+//     const parseContacts = JSON.parse(localStorage.getItem('contacts'));
+//     this.setState(prev => ({
+//       contacts: prev.contacts,
+//     }));
+//     if (parseContacts) {
+//       this.setState({
+//         contacts: parseContacts,
+//       });
+//     }
+//   }
+
+//   componentDidUpdate(_, prevState) {
+//     if (this.state.contacts !== prevState.contacts) {
+//       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+//     }
+//   }
 
 export default App;
